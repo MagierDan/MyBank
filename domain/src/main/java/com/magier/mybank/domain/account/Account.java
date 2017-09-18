@@ -1,4 +1,9 @@
-package com.magier.mybank.domain;
+package com.magier.mybank.domain.account;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.magier.mybank.domain.operation.Operation;
+import com.magier.mybank.domain.operation.OperationRepository;
+import com.magier.mybank.domain.operation.OperationType;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -14,6 +19,7 @@ public class Account {
     private LocalDate lastOperationDate;
     private final String accountNumber;
 
+    @JsonIgnore
     private OperationRepository operationRepository;
 
     private List<Operation> operations = new LinkedList<>();
@@ -25,10 +31,6 @@ public class Account {
     public Account(final OperationRepository operationRepository) {
         this.operationRepository = operationRepository;
         this.accountNumber = UUID.randomUUID().toString();
-    }
-
-    public int getBalance() {
-        return balance;
     }
 
     public void executeOperation(Operation operation) {
@@ -79,5 +81,12 @@ public class Account {
 
     public void setOperationRepository(OperationRepository operationRepository) {
         this.operationRepository = operationRepository;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+    public int getBalance() {
+        return balance;
     }
 }

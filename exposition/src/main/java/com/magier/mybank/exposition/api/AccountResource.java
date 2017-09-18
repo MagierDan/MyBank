@@ -1,21 +1,31 @@
 package com.magier.mybank.exposition.api;
 
-import com.magier.kata.bank.account.domain.Operation;
-import com.magier.kata.bank.account.domain.OperationType;
-import com.magier.kata.bank.account.domain.Operationable;
-import org.springframework.format.annotation.DateTimeFormat;
+import com.magier.mybank.domain.account.Account;
+import com.magier.mybank.domain.account.AccountRepository;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.LocalDate;
+import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping(value = "/api")
 public class AccountResource {
-    private Operationable operationable;
+   // private Operationable operationable;
+    private final AccountRepository accountRepository;
 
+    public AccountResource(final AccountRepository accountRepository) {
+        this.accountRepository = accountRepository;
+    }
+
+    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.POST)
+    public Account findAccount(
+            @PathParam(value = "accountNumber") final String accountNumber) {
+
+        return accountRepository.findAccount(accountNumber);
+    }
+
+/*
     @RequestMapping(value = "/account:execute-operation", method = RequestMethod.POST)
     public String executeOperation(
             @RequestParam(value = "accountNumber") final String accountNumber,
@@ -26,4 +36,5 @@ public class AccountResource {
         operationable.executeOperation(accountNumber, operation);
         return operation.toString();
     }
+    */
 }

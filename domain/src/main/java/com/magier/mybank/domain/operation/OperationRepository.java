@@ -1,4 +1,4 @@
-package com.magier.mybank.domain;
+package com.magier.mybank.domain.operation;
 
 public interface OperationRepository {
 

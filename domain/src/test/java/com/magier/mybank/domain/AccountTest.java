@@ -1,5 +1,9 @@
 package com.magier.mybank.domain;
 
+import com.magier.mybank.domain.account.Account;
+import com.magier.mybank.domain.operation.Operation;
+import com.magier.mybank.domain.operation.OperationRepository;
+import com.magier.mybank.domain.operation.OperationType;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

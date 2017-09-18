@@ -1,9 +1,9 @@
 package com.magier.mybank.domain.cucumber;
 
-import com.magier.mybank.domain.Account;
-import com.magier.mybank.domain.Operation;
-import com.magier.mybank.domain.OperationRepository;
-import com.magier.mybank.domain.OperationType;
+import com.magier.mybank.domain.account.Account;
+import com.magier.mybank.domain.operation.Operation;
+import com.magier.mybank.domain.operation.OperationRepository;
+import com.magier.mybank.domain.operation.OperationType;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;

@@ -1,4 +1,4 @@
-package com.magier.mybank.domain;
+package com.magier.mybank.domain.operation;
 
 /**
  * Created by Dan on 30/06/2017.

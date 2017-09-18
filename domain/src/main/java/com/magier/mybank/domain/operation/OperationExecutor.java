@@ -1,4 +1,7 @@
-package com.magier.mybank.domain;
+package com.magier.mybank.domain.operation;
+
+import com.magier.mybank.domain.account.Account;
+import com.magier.mybank.domain.account.AccountRepository;
 
 public class OperationExecutor implements Operationable {
 
