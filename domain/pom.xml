@@ -45,6 +45,13 @@
             <version>${cucumber.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- Reporting -->
+        <dependency>
+            <groupId>org.technbolts.tzatziki</groupId>
+            <artifactId>tzatziki-pdf</artifactId>
+            <version>${tzatziki.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>
@@ -57,5 +64,21 @@
                 </configuration>
             </plugin>
         </plugins>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/*.properties</include>
+                </includes>
+            </testResource>
+            <testResource>
+                <directory>src/test/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>**/*.properties</exclude>
+                </excludes>
+            </testResource>
+        </testResources>
     </build>
 </project>

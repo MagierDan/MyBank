@@ -20,12 +20,6 @@
         <junit.version>4.12</junit.version>
         <assertJ.version>3.8.0</assertJ.version>
         <cucumber.version>1.2.5</cucumber.version>
+        <tzatziki.version>0.15.1</tzatziki.version>
     </properties>
-
-    <dependencyManagement>
-        <dependencies>
-
-
-        </dependencies>
-    </dependencyManagement>
 </project>
