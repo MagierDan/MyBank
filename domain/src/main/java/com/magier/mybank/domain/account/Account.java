@@ -28,11 +28,6 @@ public class Account {
         this.accountNumber = UUID.randomUUID().toString();
     }
 
-    public Account(final OperationRepository operationRepository) {
-        this.operationRepository = operationRepository;
-        this.accountNumber = UUID.randomUUID().toString();
-    }
-
     public void executeOperation(Operation operation) {
         checkOperation(operation);
 
@@ -75,17 +70,10 @@ public class Account {
         return sb.toString();
     }
 
-    public OperationRepository getOperationRepository() {
-        return operationRepository;
-    }
-
     public void setOperationRepository(OperationRepository operationRepository) {
         this.operationRepository = operationRepository;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
-    }
     public int getBalance() {
         return balance;
     }

@@ -19,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class AccountTest {
 
     @Mock
-    OperationRepository operationRepository;
+    private OperationRepository operationRepository;
 
     @InjectMocks
-    Account account;
+    private Account account;
 
     @Test
     public void executeOperation_should_return_an_invalid_argument_exception_if_operation_is_null() {
