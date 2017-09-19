@@ -1,6 +1,6 @@
 Feature: As a bank client, in order to save or retrieve my money, I want to make a deposit or withdrawal operations on my account.
 
-  Scenario Outline: Making a deposit of 200€ the 17/06/2017 on a bank account having a balance of 300€ since the 15/06/2017
+  Scenario Outline: Making deposits on a bank account
     Given an account opened the <openingDate> with a deposit of <initialDeposit>€
     When the customer make a deposit of <depositAmount>€ the <depositDate>
     Then the customer's bank account balance is <accountBalance>€
