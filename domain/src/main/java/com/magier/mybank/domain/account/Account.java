@@ -16,13 +16,13 @@ import java.util.UUID;
 public class Account {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     private int balance;
+    private List<Operation> operations = new LinkedList<>();
     private LocalDate lastOperationDate;
     private final String accountNumber;
 
     @JsonIgnore
     private OperationRepository operationRepository;
 
-    private List<Operation> operations = new LinkedList<>();
 
     public Account() {
         this.accountNumber = UUID.randomUUID().toString();
