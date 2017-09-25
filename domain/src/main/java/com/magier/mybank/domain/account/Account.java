@@ -74,6 +74,10 @@ public class Account {
         this.operationRepository = operationRepository;
     }
 
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
     public int getBalance() {
         return balance;
     }

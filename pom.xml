@@ -4,6 +4,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.5.7.RELEASE</version>
+    </parent>
+
     <groupId>com.magier.mybank</groupId>
     <artifactId>parent</artifactId>
     <version>1.0-SNAPSHOT</version>
@@ -16,8 +22,11 @@
     </modules>
 
     <properties>
+        <mybank.version>1.0-SNAPSHOT</mybank.version>
+
         <java.version>1.8</java.version>
-        <spring.version>4.3.9.RELEASE</spring.version>
+        <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
+        <spring.version>4.3.11.RELEASE</spring.version>
 
 
         <swagger.version>2.6.1</swagger.version>
@@ -27,5 +36,18 @@
         <assertJ.version>3.8.0</assertJ.version>
         <cucumber.version>1.2.5</cucumber.version>
         <tzatziki.version>0.15.1</tzatziki.version>
+
+        <maven-resources-plugin.version>3.0.2</maven-resources-plugin.version>
     </properties>
+
+    <distributionManagement>
+        <snapshotRepository>
+            <id>heiwa_it_nexus</id>
+            <url>https://nexus.heiwa-it.com/repository/heiwa_it_snapshots</url>
+        </snapshotRepository>
+        <repository>
+            <id>heiwa_it_nexus</id>
+            <url>https://nexus.heiwa-it.com/repository/heiwa_it_releases</url>
+        </repository>
+    </distributionManagement>
 </project>

@@ -1,0 +1,112 @@
+before_script:
+  - mkdir -p ~/.ssh
+  - echo "$SSH_PRIVATE_KEY" >> ~/.ssh/docker-devtools.key
+  - chmod 600 ~/.ssh/docker-devtools.key
+  - echo "$SSH_CONFIG" >> ~/.ssh/config
+  - mkdir -p ~/.m2
+  - echo "$SETTINGS_XML" >> ~/.m2/settings.xml
+  - ssh -o StrictHostKeyChecking=no hit uptime
+
+cache:
+  untracked: true
+
+# These are the default stages. You don't need to explicitly define them. But you could define any stages you need.
+stages:
+  - test
+  - build
+  - deploy_to_non_prod_environments
+  - deploy_to_prod_environments
+
+test:
+  stage: test
+  script:
+    - "mvn clean test -T3"
+  artifacts:
+    paths:
+      - domain/target/myBank/report.pdf
+    expire_in: 1 day
+  except:
+    - /^validation\/.*$/
+    - /^feature\/no-frontend$/
+    - demo
+
+build:
+  stage: build
+  script:
+    - echo "Building project with maven"
+    - mvn deploy
+  artifacts:
+    paths:
+      - exposition/target/exposition-1.0-SNAPSHOT-exec.jar
+    expire_in: 1 day
+
+deploy to development:
+  stage: deploy_to_non_prod_environments
+  script:
+    - echo "Deploying artifact to development"
+    - "mvn clean package -DskipTests"
+    - "ssh hit \"cd ~/containers/env-dev && docker-compose stop\""
+    - "ls -la exposition/target/"
+    - "scp exposition/target/exposition-*.jar hit:~/containers/env-dev/apps/artifacts/"
+    - "ssh hit \"cd ~/containers/env-dev && docker-compose up -d\""
+  type: deploy
+  environment:
+    name: dev
+  only:
+    - develop
+
+deploy to integration:
+  stage: deploy_to_non_prod_environments
+  script:
+    - echo "Deploying artifact to integration"
+  environment:
+      name: integration
+  only:
+    - develop
+  when:
+    manual
+
+deploy to moe:
+  stage: deploy_to_non_prod_environments
+  script:
+    - echo "Deploying artifact to moe"
+  environment:
+      name: moe
+  only:
+    - development
+    - /^*_release$/
+  when:
+    manual
+
+deploy to moa:
+  stage: deploy_to_prod_environments
+  script:
+    - echo "Deploying artifact to moa"
+  environment:
+      name: moa
+  only:
+    - /^*_release$/
+  when:
+    manual
+
+deploy to staging:
+  stage: deploy_to_prod_environments
+  script:
+    - echo "Deploying artifact to pprod"
+  environment:
+      name: staging
+  only:
+    - master
+  when:
+    manual
+
+deploy to production:
+  stage: deploy_to_prod_environments
+  script:
+    - echo "Deploying artifact to prod"
+  environment:
+      name: production
+  only:
+    - tag
+  when:
+    manual

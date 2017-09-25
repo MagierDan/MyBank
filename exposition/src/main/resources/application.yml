@@ -1,0 +1,3 @@
+server:
+    port: 12378
+    contextPath: /mybank
