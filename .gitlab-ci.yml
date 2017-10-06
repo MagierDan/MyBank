@@ -59,6 +59,11 @@ deploy to integration:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to integration"
+    - "mvn clean package -DskipTests"
+    - "ssh hit \"cd ~/containers/env-int && docker-compose stop\""
+    - "ls -la exposition/target/"
+    - "scp exposition/target/exposition-*.jar hit:~/containers/env-int/apps/artifacts/"
+    - "ssh hit \"cd ~/containers/env-int && docker-compose up -d\""
   environment:
       name: integration
   only:
@@ -70,10 +75,14 @@ deploy to moe:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to moe"
+    - "mvn clean package -DskipTests"
+    - "ssh hit \"cd ~/containers/env-moe && docker-compose stop\""
+    - "ls -la exposition/target/"
+    - "scp exposition/target/exposition-*.jar hit:~/containers/env-moe/apps/artifacts/"
+    - "ssh hit \"cd ~/containers/env-moe && docker-compose up -d\""
   environment:
       name: moe
   only:
-    - development
     - /^*_release$/
   when:
     manual
@@ -82,6 +91,11 @@ deploy to moa:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to moa"
+    - "mvn clean package -DskipTests"
+    - "ssh hit \"cd ~/containers/env-moa && docker-compose stop\""
+    - "ls -la exposition/target/"
+    - "scp exposition/target/exposition-*.jar hit:~/containers/env-moa/apps/artifacts/"
+    - "ssh hit \"cd ~/containers/env-moa && docker-compose up -d\""
   environment:
       name: moa
   only:
@@ -92,7 +106,12 @@ deploy to moa:
 deploy to staging:
   stage: deploy_to_prod_environments
   script:
-    - echo "Deploying artifact to pprod"
+    - echo "Deploying artifact to staging"
+    - "mvn clean package -DskipTests"
+    - "ssh hit \"cd ~/containers/env-ppd && docker-compose stop\""
+    - "ls -la exposition/target/"
+    - "scp exposition/target/exposition-*.jar hit:~/containers/env-ppd/apps/artifacts/"
+    - "ssh hit \"cd ~/containers/env-ppd && docker-compose up -d\""
   environment:
       name: staging
   only:
@@ -103,7 +122,12 @@ deploy to staging:
 deploy to production:
   stage: deploy_to_prod_environments
   script:
-    - echo "Deploying artifact to prod"
+    - echo "Deploying artifact to production"
+    - "mvn clean package -DskipTests"
+    - "ssh hit \"cd ~/containers/env-prod && docker-compose stop\""
+    - "ls -la exposition/target/"
+    - "scp exposition/target/exposition-*.jar hit:~/containers/env-prod/apps/artifacts/"
+    - "ssh hit \"cd ~/containers/env-prod && docker-compose up -d\""
   environment:
       name: production
   only:
