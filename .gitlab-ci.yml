@@ -21,6 +21,7 @@ test:
   stage: test
   script:
     - "mvn clean test -T3"
+    - "mvn sonar:sonar -Dsonar.host.url=https://sonar.heiwa-it.com -Dsonar.login=a5cc14ce047fd6f3c04978ba7a2ce81ef8d634b3"
   artifacts:
     paths:
       - domain/target/myBank/report.pdf
