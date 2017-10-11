@@ -35,7 +35,7 @@ build:
   stage: build
   script:
     - echo "Building project with maven"
-    - mvn deploy
+    - mvn deploy -DskipTests
   artifacts:
     paths:
       - exposition/target/exposition-1.0-SNAPSHOT.jar
@@ -45,7 +45,6 @@ deploy to development:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to development"
-    - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-dev && docker-compose stop\""
     - "ls -la exposition/target/"
     - "ssh hit \"cd ~/containers/env-dev/apps/artifacts/ \
@@ -62,7 +61,6 @@ deploy to integration:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to integration"
-    - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-int && docker-compose stop\""
     - "ls -la exposition/target/"
     - "ssh hit \"cd ~/containers/env-int/apps/artifacts/ \
@@ -80,7 +78,6 @@ deploy to moe:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to moe"
-    - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-moe && docker-compose stop\""
     - "ls -la exposition/target/"
     - "ssh hit \"cd ~/containers/env-moe/apps/artifacts/ \
@@ -98,7 +95,6 @@ deploy to moa:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to moa"
-    - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-moa && docker-compose stop\""
     - "ls -la exposition/target/"
     - "version=$(mvn help:evaluate -Dexpression=project.version | tail -8 | head -1)"
@@ -118,7 +114,6 @@ deploy to staging:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to staging"
-    - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-ppd && docker-compose stop\""
     - "ls -la exposition/target/"
     - "ssh hit \"cd ~/containers/env-ppd/apps/artifacts/ \
@@ -136,7 +131,6 @@ deploy to production:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to production"
-    - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-prod && docker-compose stop\""
     - "ls -la exposition/target/"
     - "scp exposition/target/exposition-*.jar hit:~/containers/env-prod/apps/artifacts/"
