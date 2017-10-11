@@ -101,6 +101,8 @@ deploy to moa:
     - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-moa && docker-compose stop\""
     - "ls -la exposition/target/"
+    - "version=$(mvn help:evaluate -Dexpression=project.version | tail -8 | head -1)"
+    - "echo $version"
     - "ssh hit \"cd ~/containers/env-moa/apps/artifacts/ \
           && rm *.jar \
           && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-RELEASE:jar -DoutputDirectory=./ \
