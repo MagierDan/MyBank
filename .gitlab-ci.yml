@@ -38,7 +38,7 @@ build:
     - mvn deploy
   artifacts:
     paths:
-      - exposition/target/exposition-1.0-SNAPSHOT-exec.jar
+      - exposition/target/exposition-1.0-SNAPSHOT.jar
     expire_in: 1 day
 
 deploy to development:
@@ -48,8 +48,10 @@ deploy to development:
     - "mvn clean package -DskipTests"
     - "ssh hit \"cd ~/containers/env-dev && docker-compose stop\""
     - "ls -la exposition/target/"
-    - "scp exposition/target/exposition-*.jar hit:~/containers/env-dev/apps/artifacts/"
-    - "ssh hit \"cd ~/containers/env-dev && docker-compose up -d\""
+    - "ssh hit \"cd ~/containers/env-dev/apps/artifacts/ \
+      && rm *.jar \
+      && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-RELEASE:jar -DoutputDirectory=./ \
+      && docker-compose up -d\""
   type: deploy
   environment:
     name: dev
@@ -112,7 +114,6 @@ deploy to staging:
     - "ssh hit \"cd ~/containers/env-ppd && docker-compose stop\""
     - "ls -la exposition/target/"
     - "scp exposition/target/exposition-*.jar hit:~/containers/env-ppd/apps/artifacts/"
-    - "ssh hit \"cd ~/containers/env-ppd && docker-compose up -d\""
   environment:
       name: staging
   only:
