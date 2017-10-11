@@ -47,6 +47,8 @@ deploy to development:
     - echo "Deploying artifact to development"
     - "ssh hit \"cd ~/containers/env-dev && docker-compose stop\""
     - "ls -la exposition/target/"
+    - "version=$(mvn help:evaluate -Dexpression=project.version | tail -8 | head -1)"
+    - "echo $version"
     - "ssh hit \"cd ~/containers/env-dev/apps/artifacts/ \
       && rm *.jar \
       && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-SNAPSHOT:jar -DoutputDirectory=./ \
