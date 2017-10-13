@@ -6,6 +6,8 @@ before_script:
   - mkdir -p ~/.m2
   - echo "$SETTINGS_XML" >> ~/.m2/settings.xml
   - ssh -o StrictHostKeyChecking=no hit uptime
+  - VERSION=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec 2>/dev/null)
+  - echo $VERSION
 
 cache:
   untracked: true
@@ -19,8 +21,8 @@ stages:
 test:
   stage: test
   script:
-    - "mvn clean test -T3"
-    - "mvn sonar:sonar -Dsonar.host.url=https://sonar.heiwa-it.com -Dsonar.login=\"$SONAR_CREDENTIALS\""
+    - mvn clean test -T3
+    - mvn sonar:sonar -Dsonar.host.url=https://sonar.heiwa-it.com -Dsonar.login=$SONAR_CREDENTIALS
   artifacts:
     paths:
       - domain/target/myBank/report.pdf
@@ -44,14 +46,8 @@ deploy to development:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to development"
-    - "ssh hit \"cd ~/containers/env-dev && docker-compose stop\""
-    - "ls -la exposition/target/"
-    - "version=$(mvn help:evaluate -Dexpression=project.parent.version | tail -8 | head -1)"
-    - "echo $version"
-    - "ssh hit \"cd ~/containers/env-dev/apps/artifacts/ \
-      && rm -f *.jar \
-      && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-SNAPSHOT:jar -DoutputDirectory=./ \
-      && docker-compose up -d\""
+    - ssh hit \"cd ~/containers/env-dev && docker-compose stop\"
+    - ssh hit "cd ~/containers/env-dev/apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   type: deploy
   environment:
     name: dev
