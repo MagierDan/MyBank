@@ -39,7 +39,7 @@ build:
     - mvn deploy -DskipTests
   artifacts:
     paths:
-      - exposition/target/exposition-1.0-SNAPSHOT.jar
+      - exposition/target/exposition-$VERSION.jar
     expire_in: 1 day
 
 deploy to development:
