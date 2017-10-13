@@ -70,7 +70,7 @@ deploy to moe:
   environment:
       name: moe
   only:
-    - /^*_release$/
+    - /^*-release$/
   when:
     manual
 
@@ -82,7 +82,7 @@ deploy to moa:
   environment:
       name: moa
   only:
-    - /^*_release$/
+    - /^*-release$/
   when:
     manual
 
