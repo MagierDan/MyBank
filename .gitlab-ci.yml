@@ -37,9 +37,10 @@ build:
   script:
     - echo "Building project with maven"
     - mvn deploy -DskipTests
+    - echo $VERSION
   artifacts:
     paths:
-      - exposition/target/exposition-$VERSION.jar
+      - "exposition/target/exposition-$VERSION.jar"
     expire_in: 1 day
 
 deploy to development:
