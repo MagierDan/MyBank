@@ -79,7 +79,7 @@ deploy to moa:
   script:
     - echo "Deploying artifact to moa"
     - ssh hit "cd ~/containers/env-moa && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
-   environment:
+  environment:
       name: moa
   only:
     - /^*_release$/
