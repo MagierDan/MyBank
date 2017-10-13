@@ -10,7 +10,6 @@ before_script:
 cache:
   untracked: true
 
-# These are the default stages. You don't need to explicitly define them. But you could define any stages you need.
 stages:
   - test
   - build
@@ -47,7 +46,7 @@ deploy to development:
     - echo "Deploying artifact to development"
     - "ssh hit \"cd ~/containers/env-dev && docker-compose stop\""
     - "ls -la exposition/target/"
-    - "version=$(mvn help:evaluate -Dexpression=project.version | tail -8 | head -1)"
+    - "version=$(mvn help:evaluate -Dexpression=project.parent.version | tail -8 | head -1)"
     - "echo $version"
     - "ssh hit \"cd ~/containers/env-dev/apps/artifacts/ \
       && rm -f *.jar \
