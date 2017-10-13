@@ -82,7 +82,7 @@ deploy to moa:
   environment:
       name: moa
   only:
-    - /^release|/*$/
+    - /^release\/*$/
   when:
     manual
 
