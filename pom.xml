@@ -22,8 +22,6 @@
     </modules>
 
     <properties>
-        <mybank.version>1.0-SNAPSHOT</mybank.version>
-
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.7.RELEASE</spring-boot.version>
         <spring.version>4.3.11.RELEASE</spring.version>
