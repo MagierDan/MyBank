@@ -38,17 +38,12 @@ build:
     - echo "Building project with maven"
     - mvn deploy -DskipTests
     - echo $VERSION
-  artifacts:
-    paths:
-      - "exposition/target/exposition-$VERSION.jar"
-    expire_in: 1 day
 
 deploy to development:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to development"
-    - ssh hit \"cd ~/containers/env-dev && docker-compose stop\"
-    - ssh hit "cd ~/containers/env-dev/apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+    - ssh hit "cd ~/containers/env-dev && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   type: deploy
   environment:
     name: dev
@@ -59,12 +54,7 @@ deploy to integration:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to integration"
-    - "ssh hit \"cd ~/containers/env-int && docker-compose stop\""
-    - "ls -la exposition/target/"
-    - "ssh hit \"cd ~/containers/env-int/apps/artifacts/ \
-          && rm *.jar \
-          && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-SNAPSHOT:jar -DoutputDirectory=./ \
-          && docker-compose up -d\""
+    - ssh hit "cd ~/containers/env-int && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: integration
   only:
@@ -76,12 +66,7 @@ deploy to moe:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to moe"
-    - "ssh hit \"cd ~/containers/env-moe && docker-compose stop\""
-    - "ls -la exposition/target/"
-    - "ssh hit \"cd ~/containers/env-moe/apps/artifacts/ \
-          && rm *.jar \
-          && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-SNAPSHOT:jar -DoutputDirectory=./ \
-          && docker-compose up -d\""
+    - ssh hit "cd ~/containers/env-moe && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: moe
   only:
@@ -93,15 +78,8 @@ deploy to moa:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to moa"
-    - "ssh hit \"cd ~/containers/env-moa && docker-compose stop\""
-    - "ls -la exposition/target/"
-    - "version=$(mvn help:evaluate -Dexpression=project.version | tail -8 | head -1)"
-    - "echo $version"
-    - "ssh hit \"cd ~/containers/env-moa/apps/artifacts/ \
-          && rm *.jar \
-          && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-RELEASE:jar -DoutputDirectory=./ \
-          && docker-compose up -d\""
-  environment:
+    - ssh hit "cd ~/containers/env-moa && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+   environment:
       name: moa
   only:
     - /^*_release$/
@@ -112,12 +90,7 @@ deploy to staging:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to staging"
-    - "ssh hit \"cd ~/containers/env-ppd && docker-compose stop\""
-    - "ls -la exposition/target/"
-    - "ssh hit \"cd ~/containers/env-ppd/apps/artifacts/ \
-              && rm *.jar \
-              && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-RELEASE:jar -DoutputDirectory=./ \
-              && docker-compose up -d\""
+    - ssh hit "cd ~/containers/env-ppd && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: staging
   only:
@@ -129,13 +102,7 @@ deploy to production:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to production"
-    - "ssh hit \"cd ~/containers/env-prod && docker-compose stop\""
-    - "ls -la exposition/target/"
-    - "scp exposition/target/exposition-*.jar hit:~/containers/env-prod/apps/artifacts/"
-    - "ssh hit \"cd ~/containers/env-prod/apps/artifacts/ \
-              && rm *.jar \
-              && mvn -Pnexus org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy -Dartifact=com.magier.mybank:exposition:1.0-RELEASE:jar -DoutputDirectory=./ \
-              && docker-compose up -d\""
+    - ssh hit "cd ~/containers/env-prod && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: production
   only:
