@@ -2,6 +2,8 @@ package com.magier.mybank.exposition.api;
 
 import com.magier.mybank.domain.account.Account;
 import com.magier.mybank.domain.account.AccountRepository;
+import com.magier.mybank.exposition.config.EnvConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,6 +16,9 @@ public class AccountResource {
    // private Operationable operationable;
     private final AccountRepository accountRepository;
 
+    @Autowired
+    private EnvConfig envConfig;
+
     public AccountResource(final AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
@@ -23,6 +28,11 @@ public class AccountResource {
             @PathParam(value = "accountNumber") final String accountNumber) {
 
         return accountRepository.findAccount(accountNumber);
+    }
+
+    @RequestMapping(value = "/account/env", method = RequestMethod.GET)
+    public String findAccountEnvValue() {
+        return envConfig.getEnvValue();
     }
 
 /*
