@@ -36,7 +36,7 @@ public class AccountResource {
         return new ResponseEntity<>(accountRepository.findAccount(accountNumber), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/account/env", method = RequestMethod.GET)
+    @RequestMapping(value = "/account/env", method = RequestMethod.GET, headers = "Accept: text/plain")
     public ResponseEntity<String> findAccountEnvValue() {
         logger.info("The env is : " + envConfig.getEnvValue());
         return new ResponseEntity<>(envConfig.getEnvValue(), HttpStatus.FOUND);
