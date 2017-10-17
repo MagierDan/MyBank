@@ -23,7 +23,7 @@ public class AccountResource {
         this.accountRepository = accountRepository;
     }
 
-    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.POST)
+    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET)
     public Account findAccount(
             @PathParam(value = "accountNumber") final String accountNumber) {
 
