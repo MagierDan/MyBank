@@ -30,7 +30,7 @@ public class AccountResource {
         return accountRepository.findAccount(accountNumber);
     }
 
-    @RequestMapping(value = "/account/env", method = RequestMethod.GET)
+    @RequestMapping(value = "/account/env/", method = RequestMethod.GET)
     public String findAccountEnvValue() {
         return envConfig.getEnvValue();
     }
