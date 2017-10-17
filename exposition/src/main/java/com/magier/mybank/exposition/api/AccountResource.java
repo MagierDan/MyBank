@@ -22,9 +22,6 @@ public class AccountResource {
    // private Operationable operationable;
     private final AccountRepository accountRepository;
 
-    @Autowired
-    private EnvConfig envConfig;
-
     public AccountResource(final AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
@@ -34,12 +31,6 @@ public class AccountResource {
             @PathParam(value = "accountNumber") String accountNumber) {
         logger.info("The accountNumber is : " + accountNumber);
         return new ResponseEntity<>(accountRepository.findAccount(accountNumber), HttpStatus.FOUND);
-    }
-
-    @RequestMapping(value = "/account/env", method = RequestMethod.GET, headers = "Accept: text/plain")
-    public ResponseEntity<String> findAccountEnvValue() {
-        logger.info("The env is : " + envConfig.getEnvValue());
-        return new ResponseEntity<>(envConfig.getEnvValue(), HttpStatus.FOUND);
     }
 
 /*
