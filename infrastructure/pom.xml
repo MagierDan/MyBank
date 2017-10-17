@@ -7,7 +7,7 @@
     <parent>
         <artifactId>parent</artifactId>
         <groupId>com.magier.mybank</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.0-RELEASE</version>
     </parent>
 
     <artifactId>infrastructure</artifactId>
@@ -17,7 +17,7 @@
         <dependency>
             <groupId>com.magier.mybank</groupId>
             <artifactId>domain</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>1.0-RELEASE</version>
         </dependency>
 
         <dependency>
