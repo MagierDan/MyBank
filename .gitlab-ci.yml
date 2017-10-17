@@ -45,7 +45,7 @@ deploy to development:
     - echo "Deploying artifact to development"
     - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
     - ssh hit "cd ~/containers/env-dev/apps/conf && curl \"$URL\" >> MyBack.properties"
-    - ssh hit "cd ~/containers/env-dev && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+    - ssh hit "cd ~/containers/env-dev && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   type: deploy
   environment:
     name: dev
@@ -58,7 +58,7 @@ deploy to integration:
     - echo "Deploying artifact to integration"
     - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/INT/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
     - ssh hit "cd ~/containers/env-int/apps/conf && curl \"$URL\" >> MyBack.properties"
-    - ssh hit "cd ~/containers/env-int && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+    - ssh hit "cd ~/containers/env-int && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: integration
   only:
@@ -72,7 +72,7 @@ deploy to moe:
     - echo "Deploying artifact to moe"
     - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOE/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
     - ssh hit "cd ~/containers/env-moe/apps/conf && curl \"$URL\" >> MyBack.properties"
-    - ssh hit "cd ~/containers/env-moe && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+    - ssh hit "cd ~/containers/env-moe && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: moe
   only:
@@ -86,7 +86,7 @@ deploy to moa:
     - echo "Deploying artifact to moa"
     - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOA/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
     - ssh hit "cd ~/containers/env-moa/apps/conf && curl \"$URL\" >> MyBack.properties"
-    - ssh hit "cd ~/containers/env-moa && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+    - ssh hit "cd ~/containers/env-moa && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: moa
   only:
@@ -100,7 +100,7 @@ deploy to staging:
     - echo "Deploying artifact to staging"
     - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PPD/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
     - ssh hit "cd ~/containers/env-ppd/apps/conf && curl \"$URL\" >> MyBack.properties"
-    - ssh hit "cd ~/containers/env-ppd && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+    - ssh hit "cd ~/containers/env-ppd && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: staging
   only:
@@ -114,7 +114,7 @@ deploy to production:
     - echo "Deploying artifact to production"
     - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PROD/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
     - ssh hit "cd ~/containers/env-prod/apps/conf && curl \"$URL\" >> MyBack.properties"
-    - ssh hit "cd ~/containers/env-prod && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
+    - ssh hit "cd ~/containers/env-prod && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: production
   only:
