@@ -4,7 +4,8 @@ import com.magier.mybank.domain.account.Account;
 import com.magier.mybank.domain.account.AccountRepository;
 import com.magier.mybank.exposition.config.EnvConfig;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -24,16 +25,16 @@ public class AccountResource {
         this.accountRepository = accountRepository;
     }
 
-    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public Account findAccount(
+    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET)
+    public ResponseEntity<Account> findAccount(
             @PathParam(value = "accountNumber") final String accountNumber) {
 
-        return accountRepository.findAccount(accountNumber);
+        return new ResponseEntity<>(accountRepository.findAccount(accountNumber), HttpStatus.FOUND);
     }
 
-    @RequestMapping(value = "/account/env", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-    public String findAccountEnvValue() {
-        return envConfig.getEnvValue();
+    @RequestMapping(value = "/account/env", method = RequestMethod.GET)
+    public ResponseEntity<String> findAccountEnvValue() {
+        return new ResponseEntity<>(envConfig.getEnvValue(), HttpStatus.FOUND);
     }
 
 /*
