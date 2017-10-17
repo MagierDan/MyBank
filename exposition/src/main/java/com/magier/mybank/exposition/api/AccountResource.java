@@ -24,14 +24,14 @@ public class AccountResource {
         this.accountRepository = accountRepository;
     }
 
-    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public Account findAccount(
             @PathParam(value = "accountNumber") final String accountNumber) {
 
         return accountRepository.findAccount(accountNumber);
     }
 
-    @RequestMapping(value = "/account/env", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @RequestMapping(value = "/account/env", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
     public String findAccountEnvValue() {
         return envConfig.getEnvValue();
     }
