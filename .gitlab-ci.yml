@@ -22,8 +22,8 @@ stages:
 test:
   stage: test
   script:
-    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
-    - rm -f /opt/apps/conf/MyBack.properties  && curl $URL >> /opt/apps/conf/MyBack.properties
+    - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - rm -f /opt/apps/conf/MyBack.properties  && curl $URL_MYBACK_PROPERTIES >> /opt/apps/conf/MyBack.properties
     - mvn clean test -T3
     - mvn sonar:sonar -Dsonar.host.url=https://sonar.heiwa-it.com -Dsonar.login=$SONAR_CREDENTIALS
   artifacts:
@@ -46,8 +46,9 @@ deploy to development:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to development"
-    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
-    - ssh hit "cd ~/containers/env-dev/apps/conf && rm -f MyBack.properties  && curl \"$URL\" >> MyBack.properties"
+    - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - URL_BACK_APP_YML="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/back-application.yml/1.0/instances/default/application.yml?isWorkingCopy=true&template_namespace=modules%23back-application.yml%231.0%23WORKINGCOPY&simulate=true"
+    - ssh hit "cd ~/containers/env-dev/apps/conf && rm -f *  && curl \"$URL_MYBACK_PROPERTIES\" >> MyBack.properties && curl \"$URL_BACK_APP_YML\" >> application.yml"
     - ssh hit "cd ~/containers/env-dev && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   type: deploy
   environment:
@@ -59,8 +60,9 @@ deploy to integration:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to integration"
-    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/INT/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
-    - ssh hit "cd ~/containers/env-int/apps/conf && rm -f MyBack.properties  && curl \"$URL\" >> MyBack.properties"
+    - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/INT/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - URL_BACK_APP_YML="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/INT/%23Back/back-application.yml/1.0/instances/default/application.yml?isWorkingCopy=true&template_namespace=modules%23back-application.yml%231.0%23WORKINGCOPY&simulate=true"
+    - ssh hit "cd ~/containers/env-dev/apps/conf && rm -f *  && curl \"$URL_MYBACK_PROPERTIES\" >> MyBack.properties && curl \"$URL_BACK_APP_YML\" >> application.yml"
     - ssh hit "cd ~/containers/env-int && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: integration
@@ -73,8 +75,9 @@ deploy to moe:
   stage: deploy_to_non_prod_environments
   script:
     - echo "Deploying artifact to moe"
-    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOE/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
-    - ssh hit "cd ~/containers/env-moe/apps/conf && rm -f MyBack.properties  && curl \"$URL\" >> MyBack.properties"
+    - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOE/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - URL_BACK_APP_YML="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOE/%23Back/back-application.yml/1.0/instances/default/application.yml?isWorkingCopy=true&template_namespace=modules%23back-application.yml%231.0%23WORKINGCOPY&simulate=true"
+    - ssh hit "cd ~/containers/env-dev/apps/conf && rm -f *  && curl \"$URL_MYBACK_PROPERTIES\" >> MyBack.properties && curl \"$URL_BACK_APP_YML\" >> application.yml"
     - ssh hit "cd ~/containers/env-moe && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: moe
@@ -87,8 +90,9 @@ deploy to moa:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to moa"
-    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOA/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
-    - ssh hit "cd ~/containers/env-moa/apps/conf && rm -f MyBack.properties && curl \"$URL\" >> MyBack.properties"
+    - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOA/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - URL_BACK_APP_YML="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/MOA/%23Back/back-application.yml/1.0/instances/default/application.yml?isWorkingCopy=true&template_namespace=modules%23back-application.yml%231.0%23WORKINGCOPY&simulate=true"
+    - ssh hit "cd ~/containers/env-dev/apps/conf && rm -f *  && curl \"$URL_MYBACK_PROPERTIES\" >> MyBack.properties && curl \"$URL_BACK_APP_YML\" >> application.yml"
     - ssh hit "cd ~/containers/env-moa && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: moa
@@ -101,8 +105,9 @@ deploy to staging:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to staging"
-    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PPD/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
-    - ssh hit "cd ~/containers/env-ppd/apps/conf && rm -f MyBack.properties  && curl \"$URL\" >> MyBack.properties"
+    - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PPD/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - URL_BACK_APP_YML="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PPD/%23Back/back-application.yml/1.0/instances/default/application.yml?isWorkingCopy=true&template_namespace=modules%23back-application.yml%231.0%23WORKINGCOPY&simulate=true"
+    - ssh hit "cd ~/containers/env-dev/apps/conf && rm -f *  && curl \"$URL_MYBACK_PROPERTIES\" >> MyBack.properties && curl \"$URL_BACK_APP_YML\" >> application.yml"
     - ssh hit "cd ~/containers/env-ppd && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\" org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: staging
@@ -115,8 +120,9 @@ deploy to production:
   stage: deploy_to_prod_environments
   script:
     - echo "Deploying artifact to production"
-    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PROD/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
-    - ssh hit "cd ~/containers/env-prod/apps/conf && rm -f MyBack.properties  && curl \"$URL\" >> MyBack.properties"
+    - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PROD/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - URL_BACK_APP_YML="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/PROD/%23Back/back-application.yml/1.0/instances/default/application.yml?isWorkingCopy=true&template_namespace=modules%23back-application.yml%231.0%23WORKINGCOPY&simulate=true"
+    - ssh hit "cd ~/containers/env-dev/apps/conf && rm -f *  && curl \"$URL_MYBACK_PROPERTIES\" >> MyBack.properties && curl \"$URL_BACK_APP_YML\" >> application.yml"
     - ssh hit "cd ~/containers/env-prod && docker-compose stop && cd ./apps/artifacts/ && rm -f *.jar && mvn \"-Pnexus\" \"-U\"  org.apache.maven.plugins:maven-dependency-plugin:3.0.1:copy \"-Dartifact=com.magier.mybank:exposition:$VERSION:jar\" \"-DoutputDirectory=./\" && docker-compose up -d"
   environment:
       name: production
