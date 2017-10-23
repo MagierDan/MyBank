@@ -6,6 +6,7 @@ before_script:
   - mkdir -p ~/.m2
   - echo "$SETTINGS_XML" >> ~/.m2/settings.xml
   - ssh -o StrictHostKeyChecking=no hit uptime
+  - mkdir -p /opt/apps/conf
   - VERSION=$(mvn -q -Dexec.executable="echo" -Dexec.args='${project.version}' --non-recursive org.codehaus.mojo:exec-maven-plugin:1.3.1:exec 2>/dev/null)
   - echo $VERSION
 
@@ -21,6 +22,8 @@ stages:
 test:
   stage: test
   script:
+    - URL="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
+    - rm -f /opt/apps/conf/MyBack.properties  && curl $URL >> /opt/apps/conf/MyBack.properties
     - mvn clean test -T3
     - mvn sonar:sonar -Dsonar.host.url=https://sonar.heiwa-it.com -Dsonar.login=$SONAR_CREDENTIALS
   artifacts:
