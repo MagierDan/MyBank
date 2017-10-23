@@ -6,9 +6,16 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class AccountRepositoryMock implements AccountRepository {
+
+
+    @Override
+    public Account createAccount() {
+        return new Account();
+    }
+
     public Account findAccount(String accountNumber) {
         //Account account =
-                return new Account();
+        return new Account();
         //return account;
     }
 }

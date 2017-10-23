@@ -1,3 +1,10 @@
 server:
     port: 12378
     contextPath: /mybank
+
+spring:
+    datasource:
+        url: jdbc:postgresql://localhost:5432/my-bank-db
+        username: my-bank-user
+        password: my-bank-pwd
+        driver-class-name: org.postgresql.Driver
