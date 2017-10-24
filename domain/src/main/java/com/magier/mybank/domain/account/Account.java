@@ -16,8 +16,6 @@ import java.util.UUID;
 public class Account {
     public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
-    private UUID bankUuid;
-
     private int balance;
     private List<Operation> operations = new LinkedList<>();
     private LocalDate lastOperationDate;

@@ -2,7 +2,6 @@ package com.magier.mybank.exposition.api;
 
 import com.magier.mybank.domain.account.Account;
 import com.magier.mybank.domain.account.AccountRepository;
-import com.magier.mybank.exposition.config.EnvConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
