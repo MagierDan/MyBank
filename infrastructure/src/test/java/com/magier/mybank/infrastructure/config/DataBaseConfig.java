@@ -12,8 +12,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.testcontainers.containers.PostgreSQLContainer;
-
 import javax.sql.DataSource;
 
 @Configuration
@@ -32,15 +30,14 @@ public class DataBaseConfig {
     @Value("${spring.datasource.password}")
     private String password;
 
-    private PostgreSQLContainer postgres = new PostgreSQLContainer();
 
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(postgres.getDriverClassName());
-        dataSource.setUrl("jdbc:tc:postgresql://hostname/databasenam");
-        dataSource.setUsername(postgres.getUsername());
-        dataSource.setPassword(postgres.getPassword());
+        dataSource.setDriverClassName(driverClassName);
+        dataSource.setUrl(jdbcURl);
+        dataSource.setUsername(username);
+        dataSource.setPassword(password);
 
         return dataSource;
     }
