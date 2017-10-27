@@ -1,0 +1,1 @@
+INSERT INTO customer (uuid, firstname, lastname, email) VALUES ('e87f0b7f-945b-495d-aa5b-944c3d44242c', 'Lance', 'ARMSTRONG', 'lance.armstrong.gmail.com');

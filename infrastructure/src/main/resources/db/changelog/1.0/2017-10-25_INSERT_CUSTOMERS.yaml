@@ -1,0 +1,13 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: Dan
+      changes:
+      - sqlFile:
+          dbms: h2, postgresql
+          encoding: utf8
+          endDelimiter: \nGO
+          path: sql/2017-10-25_insert_customers.sql
+          relativeToChangelogFile: true
+          splitStatements: true
+          stripComments: true
