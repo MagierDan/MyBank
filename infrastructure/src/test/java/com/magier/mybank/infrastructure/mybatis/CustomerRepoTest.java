@@ -33,11 +33,8 @@ public class CustomerRepoTest {
 
     private Optional<Liquibase> liquibase;
 
-
-
     @Before
-    public void _setUp() throws Exception
-    {
+    public void _setUp() throws Exception {
         liquibase = LiquibaseHelper.loadData(dataSource,
                 "db/changelog/db.changelog-master.yaml");
     }

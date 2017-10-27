@@ -17,7 +17,7 @@ public interface CustomerMapper extends CustomerRepository{
     @Select("select * from customer")
     List<Customer> findAll();
 
-    @Select("SELECT * FROM CUSTOMER WHERE email = #{email}")
+    @Select("SELECT uuid, firstname, lastname, email FROM CUSTOMER WHERE email = #{email}")
     Customer findByEMail(@Param("email") String email);
 
     @Delete("TRUNCATE TABLE customer")

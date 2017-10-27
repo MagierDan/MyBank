@@ -24,7 +24,7 @@ test:
   script:
     - URL_MYBACK_PROPERTIES="https://hesperides.heiwa-it.com/rest/files/applications/MyBank/platforms/DEV/%23Back/MyBank/1.0/instances/default/MyBank-back?isWorkingCopy=true&template_namespace=modules%23MyBank%231.0%23WORKINGCOPY&simulate=true"
     - rm -f /opt/apps/conf/MyBack.properties  && curl $URL_MYBACK_PROPERTIES >> /opt/apps/conf/MyBack.properties
-    - mvn clean test -T3
+    - mvn clean test
     - mvn sonar:sonar -Dsonar.host.url=https://sonar.heiwa-it.com -Dsonar.login=$SONAR_CREDENTIALS
   artifacts:
     paths:

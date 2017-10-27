@@ -1,6 +1,8 @@
 package com.magier.mybank.infrastructure.config;
 
+import com.magier.mybank.infrastructure.mybatis.UUIDTypeHandler;
 import org.apache.ibatis.session.SqlSessionFactory;
+import org.apache.ibatis.type.TypeHandler;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.beans.factory.annotation.Value;
@@ -10,6 +12,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
+import org.testcontainers.containers.PostgreSQLContainer;
 
 import javax.sql.DataSource;
 
@@ -29,13 +32,15 @@ public class DataBaseConfig {
     @Value("${spring.datasource.password}")
     private String password;
 
+    private PostgreSQLContainer postgres = new PostgreSQLContainer();
+
     @Bean
     public DataSource dataSource() {
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(driverClassName);
-        dataSource.setUrl(jdbcURl);
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
+        dataSource.setDriverClassName(postgres.getDriverClassName());
+        dataSource.setUrl("jdbc:tc:postgresql://hostname/databasenam");
+        dataSource.setUsername(postgres.getUsername());
+        dataSource.setPassword(postgres.getPassword());
 
         return dataSource;
     }
@@ -44,6 +49,7 @@ public class DataBaseConfig {
     public SqlSessionFactory sqlSessionFactoryBean() throws Exception {
         SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
         sqlSessionFactoryBean.setDataSource(dataSource());
+        sqlSessionFactoryBean.setTypeHandlers(new TypeHandler[]{new UUIDTypeHandler()});
         return sqlSessionFactoryBean.getObject();
     }
 

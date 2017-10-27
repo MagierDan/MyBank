@@ -1,5 +1,7 @@
 databaseChangeLog:
   - include:
-      file: db/changelog/1.0/2017-10-23_CREATE_TABLE_CUSTOMER.yaml
+      file: db/changelog/1.0/2017-10-23_1_CREATE_EXTENSION_pgcrypto.yaml
+  - include:
+      file: db/changelog/1.0/2017-10-23_2_CREATE_TABLE_CUSTOMER.yaml
   - include:
       file: db/changelog/1.0/2017-10-25_INSERT_CUSTOMERS.yaml
