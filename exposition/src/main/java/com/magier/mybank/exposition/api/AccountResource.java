@@ -6,41 +6,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.websocket.server.PathParam;
 
 @RestController
 @RequestMapping(value = "/api")
 public class AccountResource {
     private static final Logger logger = LogManager.getLogger(AccountResource.class);
 
-   // private Operationable operationable;
     private final AccountRepository accountRepository;
 
     public AccountResource(final AccountRepository accountRepository) {
         this.accountRepository = accountRepository;
     }
 
-    @RequestMapping(value = "/account/{accountNumber}", method = RequestMethod.GET)
+    @RequestMapping(value="/account/{accountNumber}", method = RequestMethod.GET)
     public ResponseEntity<Account> findAccount(
-            @PathParam(value = "accountNumber") String accountNumber) {
+            @PathVariable("accountNumber") String accountNumber) {
         logger.info("The accountNumber is : " + accountNumber);
         return new ResponseEntity<>(accountRepository.findAccount(accountNumber), HttpStatus.FOUND);
     }
-
-/*
-    @RequestMapping(value = "/account:execute-operation", method = RequestMethod.POST)
-    public String executeOperation(
-            @RequestParam(value = "accountNumber") final String accountNumber,
-            @RequestParam(value = "operationDate") @DateTimeFormat(pattern = "dd/MM/yyyy") final LocalDate operationDate,
-            @RequestParam(value = "amount") final Integer amount,
-            @RequestParam(value = "operationType") final OperationType operationType) {
-        Operation operation = new Operation(operationDate, amount, operationType);
-        operationable.executeOperation(accountNumber, operation);
-        return operation.toString();
-    }
-    */
 }
