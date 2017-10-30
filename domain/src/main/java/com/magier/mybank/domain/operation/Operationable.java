@@ -1,5 +1,7 @@
 package com.magier.mybank.domain.operation;
 
+import java.util.UUID;
+
 public interface Operationable {
-    void executeOperation(String accountNumber, Operation operation);
+    void executeOperation(UUID accountNumber, Operation operation);
 }

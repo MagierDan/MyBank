@@ -4,6 +4,8 @@ import com.magier.mybank.domain.account.Account;
 import com.magier.mybank.domain.account.AccountRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 public class OperationExecutor implements Operationable {
 
@@ -14,7 +16,7 @@ public class OperationExecutor implements Operationable {
     }
 
     @Override
-    public void executeOperation(String accountNumber, Operation operation) {
+    public void executeOperation(UUID accountNumber, Operation operation) {
         Account account = accountRepository.findAccount(accountNumber);
         account.executeOperation(operation);
     }
