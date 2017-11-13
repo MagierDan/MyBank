@@ -48,7 +48,7 @@ build:
   stage: build
   script:
     - echo "Building project with maven"
-    - mvn deploy -DskipTests
+    - mvn deploy $MAVEN_BUILD_OPTIONS
     - echo $VERSION
 
 deploy to development:
