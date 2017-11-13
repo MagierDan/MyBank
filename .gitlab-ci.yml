@@ -34,7 +34,7 @@ test:
     - echo $URL_MYBACK_PROPERTIES
     - rm -f /opt/apps/conf/MyBack.properties && curl $URL_MYBACK_PROPERTIES >> /opt/apps/conf/MyBack.properties
     - mvn clean test $MAVEN_TEST_OPTIONS
-    - mvn sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_CREDENTIALS
+    - mvn sonar:sonar -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_CREDENTIALS $MAVEN_SONAR_OPTIONS
   artifacts:
     paths:
       - domain/target/myBank/report.pdf
