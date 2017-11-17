@@ -3,7 +3,6 @@ package com.magier.mybank.infrastructure.mybatis;
 import com.magier.mybank.domain.customer.Customer;
 import com.magier.mybank.infrastructure.config.AppConfig;
 import liquibase.Liquibase;
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,9 +15,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import static junit.framework.TestCase.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.assertj.core.api.Assertions.assertThat;
 
 
 @RunWith(SpringRunner.class)
@@ -60,8 +57,8 @@ public class CustomerRepoTest {
         customerMapper.createCustomer(customer);
 
         Customer newCustomer = customerMapper.findByEMail(customer.getEmail());
-        assertEquals("SILVA", newCustomer.getLastName());
-        assertEquals("anderson.silva@gmail.com", newCustomer.getEmail());
+        assertThat(newCustomer.getLastName()).isEqualTo("SILVA");
+        assertThat(newCustomer.getEmail()).isEqualTo("anderson.silva@gmail.com");
     }
 
     @Test
@@ -74,8 +71,8 @@ public class CustomerRepoTest {
         customerMapper.createCustomer(customer);
 
         List<Customer> customers = customerMapper.findAll();
-        assertNotNull(customers);
-        assertTrue(!customers.isEmpty());
+        assertThat(customers).isNotNull();
+        assertThat(customers).isNotEmpty();
     }
 
     @Test
@@ -88,6 +85,6 @@ public class CustomerRepoTest {
         customerMapper.createCustomer(customer);
 
         Customer expectedCustomer = customerMapper.findByEMail("eric.silva@gmail.com");
-        assertNotNull(expectedCustomer);
+        assertThat(expectedCustomer).isNotNull();
     }
 }
